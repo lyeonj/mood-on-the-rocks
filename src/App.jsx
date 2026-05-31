@@ -5,6 +5,7 @@ import Step2Taste from './pages/step2-taste';
 import Step3Result from './pages/step3-result';
 import Loading from './pages/loading';
 import Success from './pages/success';
+import Product from './pages/product';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/step3-result" element={<Step3Result />} />
         <Route path="/loading" element={<Loading />} />
         <Route path="/success" element={<Success />} />
+        <Route path="/product" element={<Product />} />
       </Routes>
     </BrowserRouter>
   )
