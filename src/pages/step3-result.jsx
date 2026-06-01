@@ -5,11 +5,36 @@ import Header from '../components/header';
 import Button from '../components/button';
 import cocktailImage from '../assets/images/ex-cocktail.png';
 
+const MAX_RATING = 5;
+
+const DetailItem = ({ label, value, rating }) => (
+  <DetailCell>
+    <DetailLabel>{label}</DetailLabel>
+    {value != null ? (
+      <DetailValue>{value}</DetailValue>
+    ) : (
+      <RatingDots>
+        {Array.from({ length: MAX_RATING }, (_, i) => (
+          <Dot key={i} $filled={i < rating} />
+        ))}
+      </RatingDots>
+    )}
+  </DetailCell>
+);
+
 const Step3Result = () => {
   const navigate = useNavigate();
   const [extraRequest, setExtraRequest] = useState('');
 
-  const cocktailName = '상큼한 모히또';
+  const cocktailName = '블루 마가리타';
+  const cocktailDetails = {
+    base: '데킬라',
+    abv: '12%',
+    sparkling: 'OFF',
+    sweetness: 3,
+    sourness: 4,
+    bitterness: 1,
+  };
 
   return (
     <Wrapper>
@@ -19,8 +44,26 @@ const Step3Result = () => {
           <ImageWrapper>
             <CocktailImage src={cocktailImage} />
           </ImageWrapper>
-          <CocktailName>{cocktailName}</CocktailName>
-          <Divider />
+          <InfoBlock>
+            <RowContainer>
+              <Divider />
+              <CocktailName>{cocktailName}</CocktailName>
+              <Divider />
+            </RowContainer>
+            <DetailsGrid>
+              <DetailRow>
+                <DetailItem label="베이스" value={cocktailDetails.base} />
+                <DetailItem label="도수" value={cocktailDetails.abv} />
+                <DetailItem label="탄산" value={cocktailDetails.sparkling} />
+              </DetailRow>
+              <DetailRow>
+                <DetailItem label="단맛" rating={cocktailDetails.sweetness} />
+                <DetailItem label="신맛" rating={cocktailDetails.sourness} />
+                <DetailItem label="쓴맛" rating={cocktailDetails.bitterness} />
+              </DetailRow>
+            </DetailsGrid>
+            <FullDivider />
+          </InfoBlock>
         </ResultSection>
 
         <RequestSection>
@@ -55,14 +98,14 @@ const Main = styled.main`
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 36px;
 `;
 
 const ResultSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 40px;
 `;
 
 const ImageWrapper = styled.div`
@@ -86,23 +129,91 @@ const ImageWrapper = styled.div`
 `;
 
 const CocktailImage = styled.img`
-  width: min(140px, 40vw);
+  width: min(180px, 48vw);
   height: auto;
+  z-index: 100;
 `;
 
-const CocktailName = styled.span`
+const InfoBlock = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  margin-top: 50px;
+`;
+
+const RowContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 22px;
+`;
+
+const CocktailName = styled.h2`
+  margin: 0;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--white);
-  margin-top: 40px;
-  cursor: default;
 `;
 
 const Divider = styled.div`
-  width: min(100px, 30vw);
+  flex: 1;
   border-bottom: 1px solid #A0A0A0;
-  margin-top: 16px;
+`;
+
+const FullDivider = styled.div`
+  width: 100%;
+  border-bottom: 1px solid #A0A0A0;
+`;
+
+const DetailsGrid = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+const DetailRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+`;
+
+const DetailCell = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+`;
+
+const DetailLabel = styled.span`
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--white);
+`;
+
+const DetailValue = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--mint);
+`;
+
+const RatingDots = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const Dot = styled.span`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background-color: ${({ $filled }) => ($filled ? 'var(--mint)' : 'transparent')};
+  border: 1px solid var(--mint);
 `;
 
 const RequestSection = styled.section`
@@ -125,10 +236,10 @@ const RequestInput = styled.textarea`
   resize: none;
   box-sizing: border-box;
   border-radius: 12px;
-  border: 1.5px dashed #A0A0A0;
+  border: 1px dashed #A0A0A0;
   background-color: var(--black);
   color: var(--white);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
 
   &::placeholder {

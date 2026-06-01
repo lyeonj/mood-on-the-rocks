@@ -13,6 +13,7 @@ const Landing = () => {
                 <LogoText src={logoText} />
                 <LogoIcon src={logoIcon} />
             </LogoContainer>
+            <Price>₩ 15,000</Price>
             <OrderButton type="button" onClick={() => navigate('/step1-mood')}>
                 주문하기
             </OrderButton>
@@ -36,7 +37,7 @@ const Content = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 60px;
+    gap: 30px;
 `;
 
 const LogoContainer = styled.div`
@@ -55,6 +56,15 @@ const LogoText = styled.img`
 const LogoIcon = styled.img`
     width: min(240px, 70vw);
     height: auto;
+`;
+
+const Price = styled.p`
+    margin: 0;
+    color: var(--mint);
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
 `;
 
 const OrderButton = styled.button`

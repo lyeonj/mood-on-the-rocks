@@ -138,7 +138,7 @@ const ProductList = styled.section`
     padding: 0 24px 40px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 32px;
 `;
 
 const FullCard = styled.div`
@@ -148,9 +148,9 @@ const FullCard = styled.div`
 `;
 
 const HalfGrid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 `;
 
 const HalfCard = styled.div`
