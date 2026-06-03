@@ -117,7 +117,6 @@ const ProductButton = styled.button`
   background: #72EBEA;
   border: none;
   text-align: center;
-  font-family: "Pretendard Variable";
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
