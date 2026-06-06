@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Header from '../components/header';
 import Button from '../components/button';
 import Option from '../components/option';
+import { useOrder } from '../context/order-context';
 import Plus from '../assets/images/plus-icon.svg';
 
 const COLOR_OPTIONS = [
@@ -29,6 +30,7 @@ const MAX_MOODS = 2;
 
 const Step1Mood = () => {
   const navigate = useNavigate();
+  const { updateOrder } = useOrder();
   const fileInputId = useId();
   const fileInputRef = useRef(null);
 
@@ -191,7 +193,16 @@ const Step1Mood = () => {
       </Main>
 
       <Footer>
-        <Button onClick={() => navigate('/step2-taste')}>
+        <Button
+          onClick={() => {
+            updateOrder({
+              selectedColorIds: [...selectedColorIds],
+              customColors,
+              selectedMoods: [...selectedMoods],
+            });
+            navigate('/step2-taste');
+          }}
+        >
           다음
         </Button>
       </Footer>

@@ -5,6 +5,8 @@ import Header from '../components/header';
 import Option from '../components/option';
 import Slider from '../components/slider';
 import Button from '../components/button';
+import { useOrder } from '../context/order-context';
+import { resolveRecommendations } from '../utils/cocktail';
 import infoIcon from '../assets/images/info-icon.svg';
 
 const BASE_INFO = [
@@ -26,6 +28,7 @@ const BASE_OPTIONS = [
 
 const Step2Taste = () => {
   const navigate = useNavigate();
+  const { updateOrder } = useOrder();
   const [selectedBase, setSelectedBase] = useState('recommend');
   const [abv, setAbv] = useState(10);
   const [sweetness, setSweetness] = useState(3);
@@ -147,7 +150,20 @@ const Step2Taste = () => {
       </Main>
 
       <Footer>
-        <Button onClick={() => navigate('/loading')}>다음</Button>
+        <Button
+          onClick={() => {
+            updateOrder({
+              ...resolveRecommendations(selectedBase, sparkling),
+              abv,
+              sweetness,
+              sourness,
+              bitterness,
+            });
+            navigate('/loading');
+          }}
+        >
+          다음
+        </Button>
       </Footer>
 
       {baseInfoOpen && (

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { OrderProvider } from './context/order-context';
 import Landing from './pages/landing';
 import Step1Mood from './pages/step1-mood';
 import Step2Taste from './pages/step2-taste';
@@ -9,6 +10,7 @@ import Product from './pages/product';
 
 function App() {
   return (
+    <OrderProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -21,6 +23,7 @@ function App() {
         <Route path="/product" element={<Product />} />
       </Routes>
     </BrowserRouter>
+    </OrderProvider>
   )
 }
 

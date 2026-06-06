@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/header';
 import Button from '../components/button';
-import cocktailImage from '../assets/images/ex-cocktail.png';
+import { useOrder } from '../context/order-context';
+import {
+  getBaseLabel,
+  getCocktailByColor,
+  getSparklingLabel,
+} from '../utils/cocktail';
 
 const MAX_RATING = 5;
 
@@ -24,17 +29,25 @@ const DetailItem = ({ label, value, rating }) => (
 
 const Step3Result = () => {
   const navigate = useNavigate();
+  const { order } = useOrder();
   const [extraRequest, setExtraRequest] = useState('');
 
-  const cocktailName = '블루 마가리타';
-  const cocktailDetails = {
-    base: '데킬라',
-    abv: '12%',
-    sparkling: 'OFF',
-    sweetness: 3,
-    sourness: 4,
-    bitterness: 1,
-  };
+  const cocktail = useMemo(
+    () => getCocktailByColor(order.selectedColorIds, order.customColors),
+    [order.selectedColorIds, order.customColors]
+  );
+
+  const cocktailDetails = useMemo(
+    () => ({
+      base: getBaseLabel(order.selectedBase),
+      abv: `${order.abv}%`,
+      sparkling: getSparklingLabel(order.sparkling),
+      sweetness: order.sweetness,
+      sourness: order.sourness,
+      bitterness: order.bitterness,
+    }),
+    [order]
+  );
 
   return (
     <Wrapper>
@@ -42,12 +55,12 @@ const Step3Result = () => {
       <Main>
         <ResultSection>
           <ImageWrapper>
-            <CocktailImage src={cocktailImage} />
+            <CocktailImage src={cocktail.image} alt={cocktail.name} />
           </ImageWrapper>
           <InfoBlock>
             <RowContainer>
               <Divider />
-              <CocktailName>{cocktailName}</CocktailName>
+              <CocktailName>{cocktail.name}</CocktailName>
               <Divider />
             </RowContainer>
             <DetailsGrid>
